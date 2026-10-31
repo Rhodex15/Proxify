@@ -1,20 +1,15 @@
-import 'dotenv';
+import dns from 'node:dns';
+dns.setServers(['8.8.8.8', '1.1.1.1']);
+import dotenv from 'dotenv';
 import express from 'express';
 import mongoose from 'mongoose';
+import connectDB from './src/config/dbConnection.js'
 
 const app = express();
-
 const PORT = process.env.PORT || 3000;
 
-mongoose.connect(process.env.MONGODB_URI)
-    .then(() => {
-        console.log('Successfully connected to MongoDB Atlas!');
-    })
-    .catch((error) => {
-        console.error('Database connection failed:', error.message);
-    });
-
-
+dotenv.config();
+await connectDB();
 app.get('/', (req, res) => {
     res.send('Hello World!');
 });
