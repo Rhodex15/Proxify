@@ -6,21 +6,22 @@ const userSchema = new mongoose.Schema({
         required: true,
         trim: true,
     },
-    password:{
+    password: {
         type: String,
         required: true,
         minLength: 10,
         select: false,
     },
-    email:{
+    email: {
         type: String,
         required: true,
         unique: true,
+        lowercase: true,
         trim: true
     }
 
 }, { timestamps: true });
 
-const User = mongoose.model("Task", userSchema);
+const User = mongoose.model("User", userSchema);
 
 export default User;

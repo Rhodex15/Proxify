@@ -1,51 +1,74 @@
 import mongoose from "mongoose";
-import User from "./user.js";
-import Confirmation from "./confirmation.js";
-import Report from "./report.js";
 
 const postSchema = new mongoose.Schema({
-    author:{
+    author: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: User,
-        required: true,
+        ref: "User",
+        required: true
     },
-    category:{
+
+    category: {
         type: String,
         enum: [
             "Traffic",
             "Flooding",
             "Power",
-            "Other",
-            "Events"
+            "Events",
+            "Deals",
+            "Other"
         ],
         required: true
     },
-    text:{
+
+    text: {
         type: String,
         required: true,
+        trim: true,
+        maxlength: 280
     },
-    imageUrl:{
-        type: Image,
-        // Must also add where the post was created based on user location
+
+    imageUrl: {
+        type: String,
+        default: null
     },
-    location:{
-        // Must add location of where post was made
+
+    location: {
+        type: {
+            type: String,
+            enum: ["Point"],
+            required: true
+        },
+        coordinates: {
+            type: [Number],
+            required: true
+        }
     },
-    confirmCount:{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: Confirmation,
+
+    confirmCount: {
+        type: Number,
+        default: 0
     },
-    reportCount:{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: Report,
+
+    reportCount: {
+        type: Number,
+        default: 0
     },
-    hidden:{
-        // Must add something for when it's hidden
+
+    hidden: {
+        type: Boolean,
+        default: false
+    },
+
+    expiresAt: {
+        type: Date,
+        required: true
     }
 
-},{ timestamps: true })
+}, { timestamps: true });
 
+postSchema.index({ location: "2dsphere" });
+postSchema.index({ expiresAt: 1 }, { expireAfterSeconds: 0 });
 
-const Post = new mongoose.model("Post", postSchema);
+const Post = mongoose.model("Post", postSchema);
 
 export default Post;

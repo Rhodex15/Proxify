@@ -1,6 +1,5 @@
 import mongoose from "mongoose";
-import User from "./user.js"
-import Post from "./post.js"
+
 
 const reportSchema = new mongoose.Schema({
     post:{
@@ -19,5 +18,5 @@ const reportSchema = new mongoose.Schema({
 }, {timestamps: true});
 
 
-const Report = new mongoose.model("Report", reportSchema);
+const Report = mongoose.model("Report", reportSchema);
 export default Report;

@@ -3,14 +3,14 @@ import jwt from "jsonwebtoken";
 export const protect = (req, res, next) => {
 
     try {
-
-        const authHeader = req.header.authorization;
+        
+        const authHeader = req.get("Authorization");
 
         if (!authHeader || !authHeader.startsWith("Bearer ")) {
-            res.status(401).json({
+            console.log("Not authorized");
+            return res.status(401).json({
                 message: "Not authorized"
-            })
-            console.log("Not authorized")
+            });
         }
 
         const token = authHeader.split(" ")[1];

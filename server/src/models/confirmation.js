@@ -1,6 +1,4 @@
 import mongoose from "mongoose";
-import Post from "./post.js";
-import User from "./user.js";
 
 
 const confirmSchema = new mongoose.Schema({
@@ -15,6 +13,6 @@ const confirmSchema = new mongoose.Schema({
 
 }, {timestamps: true})
 
-const Confirmation = new mongoose.model("Confirmation", confirmSchema);
+const Confirmation = mongoose.model("Confirmation", confirmSchema);
 
 export default Confirmation;

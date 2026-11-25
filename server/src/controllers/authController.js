@@ -1,23 +1,25 @@
 import bcrypt from "bcryptjs";
 import User from "../models/users.js";
+import jwt from "jsonwebtoken"
 
 export const registerUser = async (req, res) => {
     try{
         const {username, email, password} = req.body;
 
         if(!username|| !email || !password){
-            res.status(400).json({
+            console.log("All fields are required")
+            return res.status(400).json({
                 message: "All fields are required"
             })
-            console.log("All fields are required")
         }
         const existingUser = await User.findOne({email});
 
         if(existingUser){
-            res.status(400).json({
+            console.log("user already exists");
+            return res.status(400).json({
                 message: "User already exists"
             })
-            console.log("user already exists")
+           
         };
 
         const hashPassword = await bcrypt.hash(password, 12);
@@ -86,6 +88,5 @@ export const loginUser = async (req, res) => {
         res.status(500).json({
             message: "Failed to Login"
         })
-        throw new error
     }
 }
