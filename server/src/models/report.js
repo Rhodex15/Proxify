@@ -4,11 +4,11 @@ import mongoose from "mongoose";
 const reportSchema = new mongoose.Schema({
     post:{
         type: mongoose.Schema.Types.ObjectId,
-        ref: Post,
+        ref: "Post",
     },
     user:{
         type: mongoose.Schema.Types.ObjectId,
-        ref: User,
+        ref: "User",
     },
     reason:{
         type: String,
